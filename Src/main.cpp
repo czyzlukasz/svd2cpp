@@ -26,7 +26,13 @@ int main(int argc, char** argv){
     }
     catch(cxxopts::OptionException& ex){
         std::cout << ex.what() << std::endl;
-        return -1;
+        return 2;
     }
+    //Try to parse the file
     XmlParser xmlParser(inputFile);
+    if (auto err = xmlParser.isError()){
+        std::cout << "There was an error while reading " << inputFile << ":" << std::endl << *err << std::endl;
+        return 3;
+    }
+    xmlParser.parseXml();
 }

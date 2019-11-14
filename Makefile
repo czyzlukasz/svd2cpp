@@ -3,7 +3,7 @@ SOURCE	= Src/main.cpp tinyxml2/tinyxml2.cpp
 INCLUDE	= -I tinyxml2 -I cxxopts/include -I Src
 OUT		= svd2cpp
 CC 		= g++
-FLAGS 	= -g -c -Wall
+FLAGS 	= -g -c -Wall -std=c++17
 
 all: $(OBJS)
 	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
