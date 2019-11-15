@@ -76,7 +76,6 @@ Peripheral XmlParser::parsePeripheral(tinyxml2::XMLElement* peripheralRoot){
     setDeviceInfoAttrib(peripheralRoot, "description", peripheral.description);
     setDeviceInfoAttrib(peripheralRoot, "groupName", peripheral.groupName);
     setDeviceInfoAttrib(peripheralRoot, "baseAddress", peripheral.baseAddress);
-
     peripheral.addressBlock = parseAddressBlock(peripheralRoot->FirstChildElement("addressBlock"));
 
     //Iterate over all registers and append them to peripheral
@@ -93,6 +92,7 @@ Peripheral XmlParser::parsePeripheral(tinyxml2::XMLElement* peripheralRoot){
                  peripheral.registers.push_back(parseRegister(registerRoot->ToElement()));
              }
     }
+    peripheral.display();
     return peripheral;
 }
 
@@ -104,6 +104,7 @@ AddressBlock XmlParser::parseAddressBlock(tinyxml2::XMLElement* addressBlockRoot
     }
     else
         std::cout << "parseAddressBlock is nullptr!" << std::endl;
+    1 / 0;
     return addressBlock;
 }
 
