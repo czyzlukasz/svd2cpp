@@ -22,12 +22,12 @@ struct Field : public IDisplay{
     unsigned int bitWidth;
     EAccess fieldAccess;
     void display() final{
-        std::cout << std::endl
-                  << "\t\tname: " << name << std::endl
+        std::cout << "\t\tname: " << name << std::endl
                   << "\t\tdescription: " << description << std::endl
                   << "\t\tbitOffset: " << bitOffset << std::endl
                   << "\t\tbitWidth: " << bitWidth << std::endl
-                  << "\t\tfieldAccess: " << (int)fieldAccess << std::endl;
+                  << "\t\tfieldAccess: " << (int)fieldAccess << std::endl
+                  << std::endl;
     }
 };
 
@@ -41,15 +41,14 @@ struct Register : public IDisplay{
     std::vector<Field> fields;
     
     void display() final{
-        std::cout << std::endl
-                  << "\tname: " << name << std::endl
+        std::cout << "\tname: " << name << std::endl
                   << "\tdescription: " << description << std::endl
                   << "\taddressOffset: " << addressOffset << std::endl
                   << "\tsize: " << size << std::endl
                   << "\tregisterAccess: " << (int)registerAccess << std::endl
                   << "\tresetValue: " << resetValue << std::endl;
                   
-        std::cout << std::endl << "\tfields: " << std::endl;
+        std::cout << "\tfields: " << std::endl;
         for(auto& i : fields){
             i.display();
         }
@@ -81,7 +80,7 @@ struct Peripheral : public IDisplay{
                   << "baseAddress: " << baseAddress << std::endl
                   << "addressBlock: ";
         addressBlock.display();
-        std::cout << std::endl << "registers: " << std::endl;
+        std::cout << "registers: " << std::endl;
         for(auto& i : registers){
             i.display();
         }

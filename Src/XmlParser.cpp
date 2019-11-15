@@ -1,6 +1,6 @@
 #include <XmlParser.hpp>
 #include <iostream>
-
+#include <algorithm>
 
 XmlParser::XmlParser(const std::string& inputFile){
     xmlDocument.LoadFile(inputFile.c_str());
@@ -39,16 +39,16 @@ void XmlParser::parseXml(){
     }
 }
 
-void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, std::string &field){
+void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, std::string &field) const{
     tinyxml2::XMLElement* deviceEntry = deviceRoot->FirstChildElement(name);
     field = deviceEntry != nullptr ? deviceEntry->GetText() : noValue;
 }
 
-void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, unsigned int &field){
+void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, unsigned int &field) const{
     tinyxml2::XMLElement* deviceEntry = deviceRoot->FirstChildElement(name);
     field = deviceEntry != nullptr ? std::stol(deviceEntry->GetText(), 0, 16) : 0;
 }
-void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, EAccess &field){
+void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, EAccess &field) const{
     tinyxml2::XMLElement* deviceEntry = deviceRoot->FirstChildElement(name);
     if(deviceEntry == nullptr){
         field = EAccess::Read_Write;
@@ -68,47 +68,66 @@ void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char
         std::cout << "Wrong field for access: " << text << std::endl;
     }
 }
-unsigned int peripheralCount = 0;
-Peripheral XmlParser::parsePeripheral(tinyxml2::XMLElement* peripheralRoot){
-    std::cout << "Peripheral: " << peripheralCount++ << std::endl;
-    Peripheral peripheral;
-    setDeviceInfoAttrib(peripheralRoot, "name", peripheral.name);
-    setDeviceInfoAttrib(peripheralRoot, "description", peripheral.description);
-    setDeviceInfoAttrib(peripheralRoot, "groupName", peripheral.groupName);
-    setDeviceInfoAttrib(peripheralRoot, "baseAddress", peripheral.baseAddress);
-    peripheral.addressBlock = parseAddressBlock(peripheralRoot->FirstChildElement("addressBlock"));
+unsigned int peripheralCount = 0; //Debug
+Peripheral XmlParser::parsePeripheral(tinyxml2::XMLElement* peripheralRoot) const{
+    std::cout << "Peripheral: " << peripheralCount++ << std::endl; //Debug
+    //Check if peripheral is derived from previous one
+    const char* attribute = peripheralRoot->Attribute("derivedFrom");
+    const bool isDerived = attribute != nullptr;
+    const std::string derivedFrom = isDerived ? attribute : "";
 
-    //Iterate over all registers and append them to peripheral
-    tinyxml2::XMLElement *registersRoot = peripheralRoot->FirstChildElement("registers");
-    if(registersRoot != nullptr){
-        for (tinyxml2::XMLNode* registerRoot = registersRoot->FirstChild();
-             registerRoot;
-             registerRoot = registerRoot->NextSibling()){
-                 //Parse only "register" node
-                 if(std::string(registerRoot->Value()) != "register"){
-                     std::cout << "Register node has value " << registerRoot->Value();
-                     continue;
-                 }
-                 peripheral.registers.push_back(parseRegister(registerRoot->ToElement()));
-             }
+    Peripheral peripheral;
+    if(isDerived == true){
+        std::cout << "Derived from " << derivedFrom << std::endl;
+        //Find the base peripheral and copy it to the new one
+        auto crit = [&](auto &periph) { return periph.name == derivedFrom; };
+        auto resultIt = std::find_if(peripherals.begin(), peripherals.end(), crit);
+        if(resultIt < peripherals.end()){
+            peripheral = *resultIt;
+        }
+        else{
+            std::cout << "Couldn't find peripheral " << derivedFrom << std::endl;
+        }
+    }
+    setDeviceInfoAttrib(peripheralRoot, "name", peripheral.name);
+    setDeviceInfoAttrib(peripheralRoot, "baseAddress", peripheral.baseAddress);
+    if(isDerived == false){
+        setDeviceInfoAttrib(peripheralRoot, "description", peripheral.description);
+        setDeviceInfoAttrib(peripheralRoot, "groupName", peripheral.groupName);
+        peripheral.addressBlock = parseAddressBlock(peripheralRoot->FirstChildElement("addressBlock"));
+
+        //Iterate over all registers and append them to peripheral
+        tinyxml2::XMLElement *registersRoot = peripheralRoot->FirstChildElement("registers");
+        if(registersRoot != nullptr){
+            for (tinyxml2::XMLNode* registerRoot = registersRoot->FirstChild();
+                registerRoot;
+                registerRoot = registerRoot->NextSibling()){
+                    //Parse only "register" node
+                    if(std::string(registerRoot->Value()) != "register"){
+                        std::cout << "Register node has value " << registerRoot->Value();
+                        continue;
+                    }
+                    peripheral.registers.push_back(parseRegister(registerRoot->ToElement()));
+                }
+        }
     }
     peripheral.display();
     return peripheral;
 }
 
-AddressBlock XmlParser::parseAddressBlock(tinyxml2::XMLElement* addressBlockRoot){
+AddressBlock XmlParser::parseAddressBlock(tinyxml2::XMLElement* addressBlockRoot) const{
     AddressBlock addressBlock;
-    if(addressBlockRoot){
+    if(addressBlockRoot != nullptr){
         setDeviceInfoAttrib(addressBlockRoot, "offset", addressBlock.offset);
         setDeviceInfoAttrib(addressBlockRoot, "size", addressBlock.size);
     }
-    else
-        std::cout << "parseAddressBlock is nullptr!" << std::endl;
-    1 / 0;
+    else{
+        std::cout << "addressBlockRoot is nullptr" << std::endl;
+    }
     return addressBlock;
 }
 
-Register XmlParser::parseRegister(tinyxml2::XMLElement* registerRoot){
+Register XmlParser::parseRegister(tinyxml2::XMLElement* registerRoot) const{
     Register registe;
     setDeviceInfoAttrib(registerRoot, "name", registe.name);
     setDeviceInfoAttrib(registerRoot, "description", registe.description);
@@ -133,7 +152,7 @@ Register XmlParser::parseRegister(tinyxml2::XMLElement* registerRoot){
     }
     return registe;
 }
-Field XmlParser::parseField(tinyxml2::XMLElement* fieldRoot){
+Field XmlParser::parseField(tinyxml2::XMLElement* fieldRoot) const{
     Field field;
     setDeviceInfoAttrib(fieldRoot, "name", field.name);
     setDeviceInfoAttrib(fieldRoot, "description", field.description);

@@ -16,14 +16,14 @@ struct XmlParser{
 
 private:
     // tinyxml2::XMLElement* getDevice
-    void setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, std::string &field);
-    void setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, unsigned int &field);
-    void setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, EAccess &field);
+    void setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, std::string &field) const;
+    void setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, unsigned int &field) const;
+    void setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, EAccess &field) const;
 
-    Peripheral parsePeripheral(tinyxml2::XMLElement* peripheralRoot);
-    AddressBlock parseAddressBlock(tinyxml2::XMLElement* addressBlockRoot);
-    Register parseRegister(tinyxml2::XMLElement* registerRoot);
-    Field parseField(tinyxml2::XMLElement* fieldRoot);
+    Peripheral parsePeripheral(tinyxml2::XMLElement* peripheralRoot) const;
+    AddressBlock parseAddressBlock(tinyxml2::XMLElement* addressBlockRoot) const;
+    Register parseRegister(tinyxml2::XMLElement* registerRoot) const;
+    Field parseField(tinyxml2::XMLElement* fieldRoot) const;
 
 private:
     tinyxml2::XMLDocument xmlDocument;
