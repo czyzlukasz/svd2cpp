@@ -6,9 +6,9 @@
 #include <Peripheral.hpp>
 #include <vector>
 
-struct ClassPrinter
+struct ClassBuilder
 {
-    ClassPrinter(const cxxopts::ParseResult& results,
+    ClassBuilder(const cxxopts::ParseResult& results,
                  const DeviceInfo& deviceInfo,
                  const std::vector<Peripheral>& peripherals);
 

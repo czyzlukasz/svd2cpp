@@ -1,6 +1,6 @@
-#include <ClassPrinter.hpp>
+#include <ClassBuilder.hpp>
 
-ClassPrinter::ClassPrinter(const cxxopts::ParseResult& results,
+ClassBuilder::ClassBuilder(const cxxopts::ParseResult& results,
                            const DeviceInfo& deviceInfo,
                            const std::vector<Peripheral>& peripherals) :
         results(results),
