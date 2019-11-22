@@ -41,7 +41,7 @@ void XmlParser::parseXml(){
 
 void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, std::string &field) const{
     tinyxml2::XMLElement* deviceEntry = deviceRoot->FirstChildElement(name);
-    field = deviceEntry != nullptr ? deviceEntry->GetText() : noValue;
+    field = deviceEntry != nullptr ? std::string(deviceEntry->GetText()) : noValue;
 }
 
 void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, unsigned int &field) const{
@@ -79,8 +79,8 @@ Peripheral XmlParser::parsePeripheral(tinyxml2::XMLElement* peripheralRoot) cons
         //Find the base peripheral and copy it to the new one
         auto crit = [&](auto &periph) { return periph.name == derivedFrom; };
         auto resultIt = std::find_if(peripherals.begin(), peripherals.end(), crit);
-        if(resultIt < peripherals.end()){
-            peripheral = *resultIt;
+        if(resultIt <= peripherals.end()){
+            peripheral = Peripheral(*resultIt);
         }
         else{
             std::cout << "Couldn't find peripheral " << derivedFrom << std::endl;

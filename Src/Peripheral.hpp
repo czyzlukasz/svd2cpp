@@ -11,17 +11,13 @@ enum class EAccess{
     Read_Write
 };
 
-struct IDisplay{
-    virtual void display() = 0;
-};
-
-struct Field : public IDisplay{
+struct Field{
     std::string name;
     std::string description;
     unsigned int bitOffset;
     unsigned int bitWidth;
     EAccess fieldAccess;
-    void display() final{
+    void display() const{
         std::cout << "\t\tname: " << name << std::endl
                   << "\t\tdescription: " << description << std::endl
                   << "\t\tbitOffset: " << bitOffset << std::endl
@@ -31,7 +27,7 @@ struct Field : public IDisplay{
     }
 };
 
-struct Register : public IDisplay{
+struct Register{
     std::string name;
     std::string description;
     unsigned int addressOffset;
@@ -40,7 +36,7 @@ struct Register : public IDisplay{
     unsigned int resetValue;
     std::vector<Field> fields;
     
-    void display() final{
+    void display() const{
         std::cout << "\tname: " << name << std::endl
                   << "\tdescription: " << description << std::endl
                   << "\taddressOffset: " << addressOffset << std::endl
@@ -55,24 +51,24 @@ struct Register : public IDisplay{
     }
 };
 
-struct AddressBlock : public IDisplay{
+struct AddressBlock{
     unsigned int offset;
     unsigned int size;
-    void display() final{
+    void display() const{
         std::cout << std::endl
                   << "\toffset: " << offset << std::endl
                   << "\tsize: " << size << std::endl;
     }
 };
 
-struct Peripheral : public IDisplay{
+struct Peripheral{
     std::string name;
     std::string description;
     std::string groupName;
     unsigned int baseAddress;
     AddressBlock addressBlock;
     std::vector<Register> registers;
-    void display() final{
+    void display() const{
         std::cout << std::endl
                   << "name: " << name << std::endl
                   << "description: " << description << std::endl

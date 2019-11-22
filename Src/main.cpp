@@ -24,7 +24,7 @@ int main(int argc, char** argv){
         }
         inputFile = result["input"].as<std::string>();
         outputFile = result["output"].as<std::string>();
-        std::cout << "Input: " << inputFile << "\tOutput: " << outputFile << std::endl;
+        // std::cout << "Input: " << inputFile << "\tOutput: " << outputFile << std::endl;
     }
     catch(cxxopts::OptionException& ex){
         std::cout << ex.what() << std::endl;

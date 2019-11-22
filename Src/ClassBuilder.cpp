@@ -2,13 +2,12 @@
 #include <Builders.hpp>
 
 
-ClassBuilder::ClassBuilder(const cxxopts::ParseResult& results,
-                           const DeviceInfo& deviceInfo,
-                           const std::vector<Peripheral>& peripherals) :
-        results(results),
-        deviceInfo(deviceInfo),
-        peripherals(peripherals){
-        }
+ClassBuilder::ClassBuilder(const cxxopts::ParseResult& results_,
+                           const DeviceInfo& deviceInfo_,
+                           const std::vector<Peripheral>& peripherals_) :
+        results(results_),
+        deviceInfo(deviceInfo_),
+        peripherals(peripherals_){}
 
 void ClassBuilder::setupBuilders(){
     builders.push_back(std::make_unique<ZeroPointerBuilder>());

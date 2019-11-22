@@ -12,9 +12,9 @@
 
 struct ClassBuilder
 {
-    ClassBuilder(const cxxopts::ParseResult& results,
-                 const DeviceInfo& deviceInfo,
-                 const std::vector<Peripheral>& peripherals);
+    ClassBuilder(const cxxopts::ParseResult& results_,
+                 const DeviceInfo& deviceInfo_,
+                 const std::vector<Peripheral>& peripherals_);
     void setupBuilders();
     void build();
 

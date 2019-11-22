@@ -13,10 +13,10 @@ struct XmlParser{
     XmlParser(const std::string& inputFile);
     std::optional<std::string> isError() const;
     void parseXml();
-    inline const DeviceInfo getDeviceInfo() const{
+    inline const DeviceInfo& getDeviceInfo() const{
         return deviceInfo;
     }
-    inline const std::vector<Peripheral> getPeripherals() const{
+    inline const std::vector<Peripheral>& getPeripherals() const{
         return peripherals;
     }
 
