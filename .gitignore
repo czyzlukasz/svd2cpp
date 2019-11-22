@@ -1,2 +1,7 @@
 *.o
 *.a
+CMakeCache.txt
+CMakeFiles/
+svd2cpp
+svd2cpp.exe
+*.cmake
