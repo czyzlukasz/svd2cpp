@@ -5,18 +5,25 @@
 #include <DeviceInfo.hpp>
 #include <Peripheral.hpp>
 #include <vector>
+#include <IBuilder.hpp>
+#include <memory>
+#include <sstream>
+
 
 struct ClassBuilder
 {
     ClassBuilder(const cxxopts::ParseResult& results,
                  const DeviceInfo& deviceInfo,
                  const std::vector<Peripheral>& peripherals);
+    void setupBuilders();
+    void build();
 
 private:
     const cxxopts::ParseResult& results;
     const DeviceInfo& deviceInfo;
     const std::vector<Peripheral>& peripherals;
+    std::vector<std::unique_ptr<IBuilder>> builders;
+    std::stringstream outputStream;
 };
-
 
 #endif

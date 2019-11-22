@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cxxopts.hpp>
 #include <XmlParser.hpp>
+#include <ClassBuilder.hpp>
+
 
 int main(int argc, char** argv){
     // Create and configure options for the program
@@ -9,9 +11,9 @@ int main(int argc, char** argv){
         ("i, input", "File to be parsed", cxxopts::value<std::string>())
         ("o, output", "OutputFile", cxxopts::value<std::string>());
     std::string inputFile, outputFile;
+    auto result = options.parse(argc, argv);
     try
     {
-        auto result = options.parse(argc, argv);
         if(result.count("input") != 1){
             std::cout << "Missing input file!" << std::endl;
             return 1;
@@ -35,4 +37,7 @@ int main(int argc, char** argv){
         return 3;
     }
     xmlParser.parseXml();
+    ClassBuilder classBuilder(result, xmlParser.getDeviceInfo(), xmlParser.getPeripherals());
+    classBuilder.setupBuilders();
+    classBuilder.build();
 }

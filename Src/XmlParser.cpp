@@ -21,7 +21,7 @@ void XmlParser::parseXml(){
     setDeviceInfoAttrib(deviceRoot, "version", deviceInfo.version);
     setDeviceInfoAttrib(deviceRoot, "resetValue", deviceInfo.resetValue);
 
-    deviceInfo.printDeviceInfo();
+    // deviceInfo.printDeviceInfo();
 
     //Iterate over all peripherals and append them to peripherals
     tinyxml2::XMLElement *peripheralsRoot = deviceRoot->FirstChildElement("peripherals");
@@ -68,9 +68,7 @@ void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char
         std::cout << "Wrong field for access: " << text << std::endl;
     }
 }
-unsigned int peripheralCount = 0; //Debug
 Peripheral XmlParser::parsePeripheral(tinyxml2::XMLElement* peripheralRoot) const{
-    std::cout << "Peripheral: " << peripheralCount++ << std::endl; //Debug
     //Check if peripheral is derived from previous one
     const char* attribute = peripheralRoot->Attribute("derivedFrom");
     const bool isDerived = attribute != nullptr;
@@ -78,7 +76,6 @@ Peripheral XmlParser::parsePeripheral(tinyxml2::XMLElement* peripheralRoot) cons
 
     Peripheral peripheral;
     if(isDerived == true){
-        std::cout << "Derived from " << derivedFrom << std::endl;
         //Find the base peripheral and copy it to the new one
         auto crit = [&](auto &periph) { return periph.name == derivedFrom; };
         auto resultIt = std::find_if(peripherals.begin(), peripherals.end(), crit);
@@ -111,7 +108,7 @@ Peripheral XmlParser::parsePeripheral(tinyxml2::XMLElement* peripheralRoot) cons
                 }
         }
     }
-    peripheral.display();
+    // peripheral.display();
     return peripheral;
 }
 
