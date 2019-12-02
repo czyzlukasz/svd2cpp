@@ -11,9 +11,11 @@ ClassBuilder::ClassBuilder(const cxxopts::ParseResult& results_,
 
 void ClassBuilder::setupBuilders(){
     builders.push_back(std::make_unique<ZeroPointerBuilder>());
+    builders.push_back(std::make_unique<FieldDefineBuilder>());
     for(auto& peripheral : peripherals){
         builders.push_back(std::make_unique<PeripheralBuilder>(peripheral));
     }
+    builders.push_back(std::make_unique<FunctionsBuilder>());
 }
 
 void ClassBuilder::build(){

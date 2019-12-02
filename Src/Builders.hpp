@@ -10,6 +10,10 @@ struct ZeroPointerBuilder : public IBuilder{
     void build(std::stringstream& ss) const final;
 };
 
+struct FieldDefineBuilder : public IBuilder{
+    void build(std::stringstream& ss) const final;
+};
+
 struct PeripheralBuilder : public IBuilder{
     PeripheralBuilder(const Peripheral &peripheral_) : peripheral(peripheral_) {}
     void build(std::stringstream& ss) const final;
@@ -32,10 +36,15 @@ struct FieldBuilder : public IBuilder{
     FieldBuilder(const Field& field_, const unsigned int registerAddress_)
         : field(field_), registerAddress(registerAddress_) {}
     void build(std::stringstream& ss) const final;
-    std::string getAddress() const;
+    unsigned int getAddress() const;
 
 private:
     const Field& field;
     const unsigned int registerAddress;
 };
+
+struct FunctionsBuilder : public IBuilder{
+    void build(std::stringstream& ss) const final;
+};
+
 #endif
