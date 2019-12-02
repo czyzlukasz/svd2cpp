@@ -16,3 +16,31 @@ That's super easy:
 ```console
 ./svd2cpp -i svdFile.svd -o generatedHeader.hpp
 ```
+
+## How to use generated header?
+After including header in your code, you can use all features such as *set*, *reset*, *read*.
+
+Syntax is quite simple and easy to use:
+```cpp
+operation<PERIPHERAL::REGISTER::BIT>();
+```
+###Examples:
+Set bit UE(USART enable) in USART1 Control Register 1
+```cpp
+set<USART1::CR1::UE>();
+```
+
+Reset bit UE(USART enable) in USART1 Control Register 1
+```cpp
+reset<USART1::CR1::UE>();
+```
+
+Read Channel 1 Transfer Complete flag in DMA1 ISR Register
+```cpp
+bool transferComplete = read<DMA1::ISR::TCIF1>();
+```
+
+Set Memory address for DMA1 channel 2
+```cpp
+set<DMA1::CMAR2::MA>(0xDEADBEEF);
+```
