@@ -41,12 +41,12 @@ void XmlParser::parseXml(){
 
 void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, std::string &field) const{
     tinyxml2::XMLElement* deviceEntry = deviceRoot->FirstChildElement(name);
-    field = deviceEntry != nullptr ? std::string(deviceEntry->GetText()) : noValue;
+    field = deviceEntry ? std::string(deviceEntry->GetText()) : noValue;
 }
 
 void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, unsigned int &field) const{
     tinyxml2::XMLElement* deviceEntry = deviceRoot->FirstChildElement(name);
-    field = deviceEntry != nullptr ? std::stol(deviceEntry->GetText(), 0, 16) : 0;
+    field = deviceEntry ? (std::stol(deviceEntry->GetText()) ?: std::stol(deviceEntry->GetText(), 0, 16)) : 0;
 }
 void XmlParser::setDeviceInfoAttrib(tinyxml2::XMLElement* deviceRoot, const char* name, EAccess &field) const{
     tinyxml2::XMLElement* deviceEntry = deviceRoot->FirstChildElement(name);

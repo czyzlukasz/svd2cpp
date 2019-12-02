@@ -22,5 +22,8 @@ void ClassBuilder::build(){
     for(auto& builder : builders){
         builder->build(outputStream);
     }
-    std::cout << outputStream.str();
+}
+
+const std::stringstream& ClassBuilder::getStream() const{
+    return outputStream;
 }

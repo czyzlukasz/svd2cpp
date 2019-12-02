@@ -22,7 +22,7 @@ void PeripheralBuilder::build(std::stringstream& ss) const{
     for(auto& registe : peripheral.registers){
         RegisterBuilder(registe, peripheral.baseAddress).build(ss);
     }
-    ss << "}\n";
+    ss << "}\n\n";
 }
 
 void RegisterBuilder::build(std::stringstream& ss) const{

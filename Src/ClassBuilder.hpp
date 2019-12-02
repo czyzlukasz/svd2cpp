@@ -17,6 +17,7 @@ struct ClassBuilder
                  const std::vector<Peripheral>& peripherals_);
     void setupBuilders();
     void build();
+    const std::stringstream& getStream() const;
 
 private:
     const cxxopts::ParseResult& results;

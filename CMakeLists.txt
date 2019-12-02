@@ -9,8 +9,9 @@ include_directories(tinyxml2)
 
 add_library(ClassBuilder Src/ClassBuilder.cpp)
 add_library(Builders Src/Builders.cpp)
+add_library(OutputFile Src/OutputFile.cpp)
 add_library(XmlParser Src/XmlParser.cpp)
 add_library(tinyxml2 tinyxml2/tinyxml2.cpp)
 
 add_executable(svd2cpp Src/main.cpp)
-target_link_libraries(svd2cpp ClassBuilder Builders XmlParser tinyxml2)
+target_link_libraries(svd2cpp ClassBuilder Builders OutputFile XmlParser tinyxml2)
