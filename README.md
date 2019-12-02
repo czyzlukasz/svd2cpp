@@ -31,25 +31,25 @@ After including header in your code, you can use all features such as *set*, *re
 
 Syntax is quite simple and easy to use:
 ```cpp
-operation<PERIPHERAL::REGISTER::BIT>();
+operation<PERIPHERAL::REGISTER::FIELD>();
 ```
 ### Examples:
-Set bit UE(USART enable) in USART1 Control Register 1:
+In peripheral USART1: Set bit UE(USART enable) in CR1(Control Register 1):
 ```cpp
 set<USART1::CR1::UE>();
 ```
 
-Reset bit UE(USART enable) in USART1 Control Register 1:
+In peripheral USART1: Reset bit UE(USART enable) in CR1(Control Register 1):
 ```cpp
 reset<USART1::CR1::UE>();
 ```
 
-Read Channel 1 Transfer Complete flag in DMA1 ISR Register:
+In peripheral DMA1: Read TCIF1(Channel 1 Transfer Complete flag) in ISR:
 ```cpp
 bool transferComplete = read<DMA1::ISR::TCIF1>();
 ```
 
-Set Memory address for DMA1 channel 2:
+In peripheral DMA1: Set MA(Memory address) for CMAR2(DMA channel 2 memory address register):
 ```cpp
 set<DMA1::CMAR2::MA>(0xDEADBEEF);
 ```
